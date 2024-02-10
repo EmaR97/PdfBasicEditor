@@ -9,41 +9,50 @@ This set of scripts allows you to merge multiple PDF files into a single PDF and
 
 ## Usage
 
+0. **Make the script executable**
+
+    ```bash
+    chmod +x merge_pdfs.sh  
+    chmod +x create_bookmark_file.sh  
+    chmod +x apply_bookmarks.sh  
+    chmod +x merge_and_apply_bookmarks.sh  
+    ```
+
 1. **merge_pdfs.sh**: This script merges multiple PDF files into a single PDF.
 
     ```bash
-    chmod +x merge_pdfs.sh  # Make the script executable
     ./merge_pdfs.sh <pdf_folder>
     ```
 
    - `<pdf_folder>`: Path to the folder containing the PDF files you want to merge.
 
+
 2. **create_bookmark_file.sh**: This script creates a bookmark file for the merged PDF.
 
     ```bash
-    chmod +x create_bookmark_file.sh  # Make the script executable
     ./create_bookmark_file.sh <pdf_folder>
     ```
 
    - `<pdf_folder>`: Path to the folder containing the PDF files you want to merge.
 
+
 3. **apply_bookmarks.sh**: This script applies the bookmark file to the merged PDF.
 
     ```bash
-    chmod +x apply_bookmarks.sh  # Make the script executable
     ./apply_bookmarks.sh <pdf_folder>
     ```
 
    - `<pdf_folder>`: Path to the folder containing the PDF files you want to merge.
 
+
 4. **merge_and_apply_bookmarks.sh**: This script calls all the above scripts in sequence.
 
     ```bash
-    chmod +x merge_and_apply_bookmarks.sh  # Make the script executable
     ./merge_and_apply_bookmarks.sh <pdf_folder>
     ```
 
    - `<pdf_folder>`: Path to the folder containing the PDF files you want to merge.
+
 
 ## Example
 

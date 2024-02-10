@@ -20,6 +20,7 @@ total_pages=0
 
 # Create a temporary file to store the bookmark information
 bookmark_file="${pdf_directory}.txt"
+pdftk "${pdf_directory}.pdf" dump_data output "$bookmark_file"               
 
 # Iterate over each PDF file in the directory
 for pdf_file in "$pdf_directory"/*.pdf; do
@@ -27,12 +28,15 @@ for pdf_file in "$pdf_directory"/*.pdf; do
     filename=$(basename -- "$pdf_file")
     filename_no_extension="${filename%.*}"
 
+    # Remove date prefix if it exists in the filename
+    filename_no_date="${filename_no_extension#[0-9][0-9][0-9][0-9][0-1][0-9][0-3][0-9]_}"
+
     # Use pdftk to get the number of pages
     num_pages=$(pdftk "$pdf_file" dump_data | grep NumberOfPages | awk '{print $2}')
 
     # Print the output in the desired format
     echo "BookmarkBegin" >> "$bookmark_file"
-    echo "BookmarkTitle: $filename_no_extension" >> "$bookmark_file"
+    echo "BookmarkTitle: $filename_no_date" >> "$bookmark_file"
     echo "BookmarkLevel: 1" >> "$bookmark_file"
     echo "BookmarkPageNumber: $((total_pages + 1))" >> "$bookmark_file"
 

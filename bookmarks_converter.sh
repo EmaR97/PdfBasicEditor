@@ -14,12 +14,18 @@ fi
 
 # Create a new file to store the bookmarks
 output_file="${1%.*}_bookmarks.txt"
+
+# Remove the output file if it already exists
+if [ -f "$output_file" ]; then
+    rm "$output_file"
+fi
+
 touch "$output_file"
 
 # Read input file line by line and convert to bookmarks
 while IFS= read -r line; do
     # Extract title and page number from the line
-    title=$(echo "$line" | sed 's/.*- //;s/    (Page.*//')
+    title=$(echo "$line" | sed 's/.*- //;s/ (.*)//')
     page_number=$(echo "$line" | awk -F "Page " '{print $2}' | tr -d ')')
 
     # Count the indentation level

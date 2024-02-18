@@ -16,6 +16,7 @@ This set of scripts allows you to merge multiple PDF files into a single PDF and
     chmod +x create_bookmark_file.sh  
     chmod +x apply_bookmarks.sh  
     chmod +x merge_and_apply_bookmarks.sh  
+    chmod +x bookmarks_converter.sh  
     ```
 
 1. **merge_pdfs.sh**: This script merges multiple PDF files into a single PDF.

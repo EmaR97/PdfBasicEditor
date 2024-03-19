@@ -1,17 +1,69 @@
 #!/bin/bash
 
-# Extract size and number of pages of the input PDF using pdftk
-size=$(pdftk single_file.pdf dump_data | grep -oP "(?<=PageMediaDimensions: )(\d+ \d+)")
-num_pages=$(pdftk single_file.pdf dump_data | grep -oP "(?<=NumberOfPages: )(\d+)")
+# Function to extract size and number of pages of the input PDF using pdftk
+extract_pdf_info() {
+    pdftk "$1" dump_data | grep -oP "(?<=PageMediaDimensions: )(\d+ \d+)"
+}
 
-# Print the number of pages found in the PDF
-echo "Number of pages found in the PDF: $num_pages"
+# Function to compile LaTeX document and generate PDF
+compile_latex() {
+    log_message "Compiling LaTeX document: $1"
+    pdflatex "$1" > /dev/null 2>&1
+    log_message "LaTeX document compiled successfully."
+}
+
+# Function to overlay empty pages onto the original PDF to add page numbers
+overlay_pages() {
+    log_message "Overlaying empty pages onto the original PDF..."
+    pdftk "$1" multistamp "$2" output "$3"
+    log_message "Empty pages overlaid successfully. New PDF with page numbers created: $3"
+}
+
+# Function for logging messages
+log_message() {
+    if [ "$LOG_ENABLED" = true ]; then
+        echo "$1"
+    fi
+}
+
+# Main script
+
+# Check if the input PDF file argument is provided
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <input_pdf> [-l]"
+    exit 1
+fi
+
+# Check if logging is enabled
+if [ "$2" = "-l" ]; then
+    LOG_ENABLED=true
+else
+    LOG_ENABLED=false
+fi
+
+# Input PDF file
+input_pdf="$1"
+
+# Check if the input PDF file exists
+if [ ! -f "$input_pdf" ]; then
+    echo "Error: Input PDF file '$input_pdf' not found."
+    exit 1
+fi
+
+log_message "Input PDF file found: $input_pdf"
+
+# Extract size and number of pages of the input PDF
+log_message "Extracting size and number of pages of the input PDF..."
+size=$(extract_pdf_info "$input_pdf")
+num_pages=$(pdftk "$input_pdf" dump_data | grep -oP "(?<=NumberOfPages: )(\d+)")
+log_message "Number of pages found in the PDF: $num_pages"
 
 # Extract width and height from the size
 width=$(echo $size | cut -d' ' -f1)
 height=$(echo $size | cut -d' ' -f2)
 
 # Create a new LaTeX document with correct size and number of pages
+log_message "Creating a new LaTeX document with correct size and number of pages..."
 cat << EOF > empty.tex
 \documentclass[12pt]{article}
 \usepackage{multido}
@@ -32,15 +84,20 @@ cat << EOF > empty.tex
 \pagestyle{myfancy}
 
 \begin{document}
- \multido{}{${num_pages}}{\vphantom{x}\newpage} % Add empty pages with correct dimensions
+ \multido{}{$num_pages}{\vphantom{x}\newpage} % Add empty pages with correct dimensions
 \end{document}
 EOF
+log_message "LaTeX document created successfully."
 
 # Compile the LaTeX document to generate the empty PDF
-pdflatex empty.tex
+compile_latex empty.tex
 
 # Overlay the empty pages onto the original PDF to add page numbers
-pdftk single_file.pdf multistamp empty.pdf output single_document_numbered.pdf
+overlay_pages "$input_pdf" empty.pdf "${input_pdf%.*}_numbered.pdf"
 
 # Clean up temporary files
+log_message "Cleaning up temporary files..."
 rm empty.tex empty.aux empty.log empty.pdf
+log_message "Temporary files cleaned up successfully."
+
+log_message "Script execution completed."

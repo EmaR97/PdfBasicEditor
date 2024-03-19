@@ -1,7 +1,6 @@
-# PDF Merger with Bookmarks
+# PDF Merger with Bookmarks and Page Numbering
 
-This set of scripts allows you to merge multiple PDF files into a single PDF and add bookmarks to each individual PDF
-within the merged document.
+This set of scripts allows you to merge multiple PDF files into a single PDF, add bookmarks to each individual PDF within the merged document, and add page numbers to the merged PDF.
 
 ## Prerequisites
 
@@ -11,17 +10,26 @@ within the merged document.
   ```bash
   sudo apt install -y pdftk
   ```
-- **Make the script executable**
+- **Install TeX Live** for LaTeX compilation. You can install it using your package manager (e.g., `apt install texlive texlive-latex-base texlive-plain-generic` for Debian-based systems).
+  ```bash
+  sudo apt install -y texlive texlive-latex-base texlive-plain-generic
+  ```
+- **Make the scripts executable**
    ```bash
+   chmod +x add_page_numbers.sh  
    chmod +x merge_pdfs.sh  
    chmod +x create_bookmark_file.sh  
    chmod +x apply_bookmarks.sh  
    chmod +x merge_and_apply_bookmarks.sh  
-   chmod +x bookmarks_converter.sh  
+   chmod +x pdf_merger_with_bookmarks_and_page_numbers.sh  
    ```
 
 ## Usage
 
+- **add_page_numbers.sh**: This script adds page numbers to the PDF.
+    ```bash
+    ./add_page_numbers.sh <input_pdf>
+    ```
 - **merge_pdfs.sh**: This script merges multiple PDF files into a single PDF.
     ```bash
     ./merge_pdfs.sh <pdf_folder>
@@ -37,8 +45,7 @@ within the merged document.
     ```bash
     ./apply_bookmarks.sh <pdf_folder>
     ```
-- **merge_and_apply_bookmarks.sh**: This script calls all the above scripts in sequence.
-
+- **merge_and_apply_bookmarks.sh**: This script merges PDF files, creates bookmarks, and applies them to the merged PDF.
     ```bash
     ./merge_and_apply_bookmarks.sh <pdf_folder>
     ```
@@ -49,4 +56,4 @@ within the merged document.
   command `chmod +x <script_name.sh>` to make a script executable.
 - Ensure that the folder containing the PDF files exists and contains the files you want to merge.
 - The merged PDF file with bookmarks will be saved as `<pdf_folder>.TOC.pdf`.
-- If you encounter any issues, make sure that `pdftk` is installed and available in your system's path.
+- If you encounter any issues, make sure that `pdftk` and `texlive` are installed and available in your system's path.

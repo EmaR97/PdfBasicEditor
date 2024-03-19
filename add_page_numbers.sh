@@ -26,10 +26,15 @@ log_message() {
     fi
 }
 
+# Function for logging error messages in red
+error_message() {
+    echo -e "\e[31mError: $1\e[0m"
+}
 # Main script
 
 # Check if the input PDF file argument is provided
 if [ $# -lt 1 ]; then
+    error_message "No PDF file specified."
     echo "Usage: $0 <input_pdf> [-l]"
     exit 1
 fi
@@ -46,7 +51,7 @@ input_pdf="$1"
 
 # Check if the input PDF file exists
 if [ ! -f "$input_pdf" ]; then
-    echo "Error: Input PDF file '$input_pdf' not found."
+    error_message "Input PDF file '$input_pdf' not found."
     exit 1
 fi
 
@@ -97,7 +102,7 @@ overlay_pages "$input_pdf" empty.pdf "${input_pdf%.*}_numbered.pdf"
 
 # Clean up temporary files
 log_message "Cleaning up temporary files..."
-rm empty.tex empty.aux empty.log empty.pdf
+rm -f empty.tex empty.aux empty.log empty.pdf
 log_message "Temporary files cleaned up successfully."
 
 log_message "Script execution completed."

@@ -6,16 +6,22 @@ within the merged document, and add page numbers to the merged PDF.
 ## Prerequisites
 
 - Linux environment (the scripts are written in Bash).
-- **Install pdftk** (PDF toolkit). You can install it using your package manager (e.g., `apt install pdftk` for
-  Debian-based systems).
+- **Install pdftk** (PDF toolkit).
   ```bash
+  # for Debian-based systems
   sudo apt install -y pdftk
   ```
-- **Install TeX Live** for LaTeX compilation. You can install it using your package manager (
-  e.g., `apt install texlive texlive-latex-base texlive-plain-generic` for Debian-based systems).
+- **Install TeX Live** for LaTeX compilation.
   ```bash
-  sudo apt install -y texlive texlive-latex-base texlive-plain-generic
-  ```
+  # for Debian-based systems
+  sudo apt install -y texlive-latex-base texlive-plain-generic 
+   ```
+- **Install texlive-extra-utils** for pdfjam.
+  ```bash
+  # for Debian-based systems
+  sudo apt install -y texlive-extra-utils
+   ```
+
 - **Make the scripts executable**
    ```bash
    chmod +x add_number_and_merge_pages/add_page_numbers.sh

@@ -1,6 +1,7 @@
 # PDF Merger with Bookmarks and Page Numbering
 
-This set of scripts allows you to merge multiple PDF files into a single PDF, add bookmarks to each individual PDF within the merged document, and add page numbers to the merged PDF.
+This set of scripts allows you to merge multiple PDF files into a single PDF, add bookmarks to each individual PDF
+within the merged document, and add page numbers to the merged PDF.
 
 ## Prerequisites
 
@@ -10,18 +11,26 @@ This set of scripts allows you to merge multiple PDF files into a single PDF, ad
   ```bash
   sudo apt install -y pdftk
   ```
-- **Install TeX Live** for LaTeX compilation. You can install it using your package manager (e.g., `apt install texlive texlive-latex-base texlive-plain-generic` for Debian-based systems).
+- **Install TeX Live** for LaTeX compilation. You can install it using your package manager (
+  e.g., `apt install texlive texlive-latex-base texlive-plain-generic` for Debian-based systems).
   ```bash
   sudo apt install -y texlive texlive-latex-base texlive-plain-generic
   ```
 - **Make the scripts executable**
    ```bash
-   chmod +x add_page_numbers.sh  
-   chmod +x merge_pdfs.sh  
-   chmod +x create_bookmark_file.sh  
-   chmod +x apply_bookmarks.sh  
-   chmod +x merge_and_apply_bookmarks.sh  
-   chmod +x pdf_merger_with_bookmarks_and_page_numbers.sh  
+   chmod +x add_number_and_merge_pages/add_page_numbers.sh
+   chmod +x add_number_and_merge_pages/merge_pages.sh
+   chmod +x add_number_and_merge_pages/complete.sh 
+   ```
+     ```bash
+   chmod +x bookmarks_converter/bookmarks_to_index.sh
+   chmod +x bookmarks_converter/index_to_bookmarks.sh
+   ```
+     ```bash
+   chmod +x merge_and_apply_bookmarks/merge_pdfs.sh  
+   chmod +x merge_and_apply_bookmarks/create_bookmark_file.sh  
+   chmod +x merge_and_apply_bookmarks/apply_bookmarks.sh  
+   chmod +x merge_and_apply_bookmarks/complete.sh  
    ```
 
 ## Usage
@@ -47,7 +56,7 @@ This set of scripts allows you to merge multiple PDF files into a single PDF, ad
     ```
 - **merge_and_apply_bookmarks.sh**: This script merges PDF files, creates bookmarks, and applies them to the merged PDF.
     ```bash
-    ./merge_and_apply_bookmarks.sh <pdf_folder>
+    ./complete.sh <pdf_folder>
     ```
 
 ## Notes

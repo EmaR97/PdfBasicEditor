@@ -9,11 +9,12 @@ fi
 # Set the directory containing the PDF files
 pdf_directory="$1"
 
-# Check if the directory exists
-if [ ! -d "$pdf_directory" ]; then
-    echo "Error: Directory '$pdf_directory' does not exist."
+# Check if the input file exists
+if [ ! -f "$1.pdf" ]; then
+    error_message "Input file '$1' not found."
     exit 1
 fi
+
 
 # Create the output PDF file with bookmarks
 output_with_bookmarks="${pdf_directory}.TOC.pdf"

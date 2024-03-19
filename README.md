@@ -12,6 +12,7 @@ This set of scripts allows you to merge multiple PDF files into a single PDF and
 0. **Make the script executable**
 
     ```bash
+    sudo apt install -y pdftk 
     chmod +x merge_pdfs.sh  
     chmod +x create_bookmark_file.sh  
     chmod +x apply_bookmarks.sh  

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ../utility_functions.sh "$@"
+
 # Function to extract size and number of pages of the input PDF using pdftk
 extract_pdf_info() {
     pdftk "$1" dump_data | grep -oP "(?<=PageMediaDimensions: )(\d+ \d+)"
@@ -19,17 +21,6 @@ overlay_pages() {
     log_message "Empty pages overlaid successfully. New PDF with page numbers created: $3"
 }
 
-# Function for logging messages
-log_message() {
-    if [ "$LOG_ENABLED" = true ]; then
-        echo "$1"
-    fi
-}
-
-# Function for logging error messages in red
-error_message() {
-    echo -e "\e[31mError: $1\e[0m"
-}
 # Main script
 
 # Check if the input PDF file argument is provided
@@ -39,12 +30,6 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-# Check if logging is enabled
-if [ "$2" = "-l" ]; then
-    LOG_ENABLED=true
-else
-    LOG_ENABLED=false
-fi
 
 # Input PDF file
 input_pdf="$1"

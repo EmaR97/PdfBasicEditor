@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Source common functions script
+source ../utility_functions.sh
+
+# Call the check_log_option function with all command-line arguments
+check_log_option "$@"
+
 # Function to display usage information
 usage() {
     echo "Usage: $0 input_file"
@@ -13,7 +19,7 @@ fi
 
 # Check if the input file exists
 if [ ! -f "$1" ]; then
-    echo "Error: Input file '$1' not found."
+    error_message "Input file '$1' not found."
     exit 1
 fi
 
@@ -22,23 +28,24 @@ output_file="${1%.*}_bookmarks.txt"
 
 # Remove the output file if it already exists
 if [ -f "$output_file" ]; then
-    rm "$output_file" || { echo "Error: Unable to remove existing output file '$output_file'."; exit 1; }
+    rm "$output_file" || { error_message "Unable to remove existing output file '$output_file'."; exit 1; }
 fi
 
 # Process the input file and generate bookmarks
 while IFS= read -r line; do
+
     # Extract title and page number from the line
     title=$(echo "$line" | sed 's/.*- //;s/ (.*)//')
     page_number=$(echo "$line" | awk -F "Page " '{print $2}' | tr -d ')')
 
     # Count the indentation level
-    indent_level=$(awk -F '-' '{print length($1)}' <<< "$line")
-
+    indent_level=$(expr "$line" : '^[[:space:]]*')
+    indent_level=$((indent_level/4+1))
     # Write the bookmark entry to the output file
     cat >> "$output_file" <<EOF
 BookmarkBegin
 BookmarkTitle: $title
-BookmarkLevel: $((indent_level / 4 + 1))
+BookmarkLevel: $((indent_level))
 BookmarkPageNumber: $page_number
 EOF
 
@@ -46,8 +53,8 @@ done < "$1"
 
 # Check if the conversion is successful
 if [ $? -eq 0 ]; then
-    echo "Conversion completed. Bookmarks saved to '$output_file'."
+    log_message "Conversion completed. Bookmarks saved to '$output_file'."
 else
-    echo "Error: Conversion failed."
+    error_message "Conversion failed."
     exit 1
 fi

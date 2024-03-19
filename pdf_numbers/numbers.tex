@@ -1,6 +1,20 @@
- \documentclass[12pt,a4paper]{article}
- \usepackage{multido}
- \usepackage[hmargin=.8cm,vmargin=1.5cm,nohead,nofoot]{geometry}
- \begin{document}
+\documentclass[12pt,a4paper]{article}
+\usepackage{multido}
+\usepackage[margin=0pt,paperwidth=612pt,paperheight=792pt]{geometry}
+
+\usepackage[hmargin=.8cm,vmargin=1.5cm,nohead,nofoot]{geometry}
+\usepackage{fancyhdr}
+
+% Define a new page style for the document
+\fancypagestyle{myfancy}{
+ \fancyhf{} % Clear header and footer
+ \renewcommand{\headrulewidth}{0pt} % Remove header rule
+ \fancyfoot[R]{\thepage} % Place page number in the bottom right corner
+}
+
+% Apply the custom page style to the document
+\pagestyle{myfancy}
+
+\begin{document}
  \multido{}{31}{\vphantom{x}\newpage}
- \end{document}
+\end{document}

@@ -23,7 +23,7 @@ if [ ! -f "$1" ]; then
     exit 1
 fi
 
-output_file="${1%.*}_index.txt"
+output_file="${1%.*}.idx.txt"
 
 # Remove the output file if it already exists
 if [ -f "$output_file" ]; then

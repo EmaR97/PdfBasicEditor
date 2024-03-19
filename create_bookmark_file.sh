@@ -19,7 +19,7 @@ fi
 total_pages=0
 
 # Create a temporary file to store the bookmark information
-bookmark_file="${pdf_directory}.txt"
+bookmark_file="${pdf_directory}.bmk.txt"
 pdftk "${pdf_directory}.pdf" dump_data output "$bookmark_file"               
 
 # Iterate over each PDF file in the directory

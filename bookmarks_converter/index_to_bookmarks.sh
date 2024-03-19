@@ -24,7 +24,7 @@ if [ ! -f "$1" ]; then
 fi
 
 # Define the output file name
-output_file="${1%.*}_bookmarks.txt"
+output_file="${1%.*}.bmk.txt"
 
 # Remove the output file if it already exists
 if [ -f "$output_file" ]; then

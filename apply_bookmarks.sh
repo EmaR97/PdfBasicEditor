@@ -19,7 +19,7 @@ fi
 output_with_bookmarks="${pdf_directory}.TOC.pdf"
 
 # Create the bookmark file
-bookmark_file="${pdf_directory}.txt"
+bookmark_file="${pdf_directory}.bmk.txt"
 
 # Update the PDF file with the bookmark information
 pdftk "${pdf_directory}.pdf" update_info "$bookmark_file" output "$output_with_bookmarks"

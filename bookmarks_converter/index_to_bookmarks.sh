@@ -12,7 +12,7 @@ usage() {
 }
 
 # Check if the correct number of arguments is provided
-if [ "$#" -ne 1 ]; then
+if [ "$#" -lt 1 ]; then
     usage
     exit 1
 fi
@@ -35,7 +35,7 @@ fi
 while IFS= read -r line; do
 
     # Extract title and page number from the line
-    title=$(echo "$line" | sed 's/.*- //;s/ (.*)//')
+    title=$(echo "$line" | sed -E 's/^[[:space:]]*//;s/ \(Page [0-9]+\)$//')
     page_number=$(echo "$line" | awk -F "Page " '{print $2}' | tr -d ')')
 
     # Count the indentation level

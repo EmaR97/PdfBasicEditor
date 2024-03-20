@@ -2,6 +2,7 @@
 
 cd "$(dirname "$0")" || exit
 
+# Source common functions script
 source ../utility_functions.sh "$@"
 
 # Check if the correct number of arguments are provided

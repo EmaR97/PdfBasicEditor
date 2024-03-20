@@ -1,8 +1,13 @@
 #!/bin/bash
 
+cd "$(dirname "$0")" || exit
+
+# Source common functions script
+source ../utility_functions.sh "$@"
+
 # Check if the folder parameter is provided
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 <pdf_folder>"
+    error_message "Usage: $0 <pdf_folder>"
     exit 1
 fi
 
@@ -11,7 +16,7 @@ pdf_directory="$1"
 
 # Check if the directory exists
 if [ ! -d "$pdf_directory" ]; then
-    echo "Error: Directory '$pdf_directory' does not exist."
+    error_message "Directory '$pdf_directory' does not exist."
     exit 1
 fi
 
@@ -27,5 +32,10 @@ done
 output_file="${pdf_directory}.pdf"
 pdftk "${pdf_files[@]}" cat output "$output_file"
 
-echo "PDF files have been merged into '$output_file'."
+# Check if pdftk command executed successfully
+if [ $? -ne 0 ]; then
+    error_message "Failed to merge PDF files."
+    exit 1
+fi
 
+log_message "PDF files have been merged into '$output_file'."

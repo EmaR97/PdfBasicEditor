@@ -1,8 +1,13 @@
 #!/bin/bash
 
+cd "$(dirname "$0")" || exit
+
+# Source common functions script
+source ../utility_functions.sh "$@"
+
 # Check if the folder parameter is provided
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 <pdf_folder>"
+    error_message "Usage: $0 <pdf_folder>"
     exit 1
 fi
 
@@ -11,7 +16,7 @@ pdf_directory="$1"
 
 # Check if the directory exists
 if [ ! -d "$pdf_directory" ]; then
-    echo "Error: Directory '$pdf_directory' does not exist."
+    error_message "Directory '$pdf_directory' does not exist."
     exit 1
 fi
 
@@ -21,6 +26,12 @@ total_pages=0
 # Create a temporary file to store the bookmark information
 bookmark_file="${pdf_directory}.bmk.txt"
 pdftk "${pdf_directory}.pdf" dump_data output "$bookmark_file"               
+
+# Check if pdftk command executed successfully
+if [ $? -ne 0 ]; then
+    error_message "Failed to create bookmark file."
+    exit 1
+fi
 
 # Iterate over each PDF file in the directory
 for pdf_file in "$pdf_directory"/*.pdf; do
@@ -44,5 +55,4 @@ for pdf_file in "$pdf_directory"/*.pdf; do
     total_pages=$((total_pages + num_pages))
 done
 
-echo "Bookmarks have been created and saved in $bookmark_file."
-
+log_message "Bookmarks have been created and saved in $bookmark_file."

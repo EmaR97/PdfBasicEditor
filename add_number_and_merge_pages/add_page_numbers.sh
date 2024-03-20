@@ -1,5 +1,8 @@
 #!/bin/bash
 
+cd "$(dirname "$0")" || exit
+
+# Source common functions script
 source ../utility_functions.sh "$@"
 
 # Function to extract size and number of pages of the input PDF using pdftk

@@ -1,7 +1,9 @@
 #!/bin/bash
 
+cd "$(dirname "$0")" || exit
+
 # Source common functions script
-source ../utility_functions.sh
+source ../utility_functions.sh "$@"
 
 # Call the check_log_option function with all command-line arguments
 check_log_option "$@"

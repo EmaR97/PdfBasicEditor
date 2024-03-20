@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+# Save current directory location
+current_dir="$(pwd)"
+
+# Change directory to the script's directory
 cd "$(dirname "$0")" || exit
 
 # Source common functions script
@@ -14,6 +19,12 @@ fi
 
 # Input and output files
 input_pdf="$1"
+
+# Check if the input PDF file is not an absolute path
+if [[ ! "$input_pdf" = /* ]]; then
+    # Prepend saved directory path to relative input PDF path
+    input_pdf="$current_dir/$input_pdf"
+fi
 
 # Check if the input PDF file exists
 if [ ! -f "$input_pdf" ]; then

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Save current directory location
+current_dir="$(pwd)"
+
+# Change directory to the script's directory
 cd "$(dirname "$0")" || exit
 
 # Source common functions script
@@ -19,14 +23,22 @@ if [ "$#" -lt 1 ]; then
     exit 1
 fi
 
+input="$1"
+
+# Check if the input PDF file is not an absolute path
+if [[ ! "$input" = /* ]]; then
+    # Prepend saved directory path to relative input PDF path
+    input="$current_dir/$input"
+fi
+
 # Check if the input file exists
-if [ ! -f "$1" ]; then
-    error_message "Input file '$1' not found."
+if [ ! -f "$input" ]; then
+    error_message "Input file '$input' not found."
     exit 1
 fi
 
 # Define the output file name
-output_file="${1%.*}.bmk.txt"
+output_file="${$input%.*}.bmk.txt"
 
 # Remove the output file if it already exists
 if [ -f "$output_file" ]; then

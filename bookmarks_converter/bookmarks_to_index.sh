@@ -37,7 +37,7 @@ if [ ! -f "$input" ]; then
     exit 1
 fi
 
-output_file="${$input%.*}.idx.txt"
+output_file="${input%.*}.idx.txt"
 
 
 

@@ -30,7 +30,6 @@ if [[ ! "$input" = /* ]]; then
     # Prepend saved directory path to relative input PDF path
     input="$current_dir/$input"
 fi
-
 # Check if the input file exists
 if [ ! -f "$input" ]; then
     error_message "Input file '$input' not found."
@@ -38,7 +37,7 @@ if [ ! -f "$input" ]; then
 fi
 
 # Define the output file name
-output_file="${$input%.*}.bmk.txt"
+output_file="${input%.*}.bmk.txt"
 
 # Remove the output file if it already exists
 if [ -f "$output_file" ]; then
